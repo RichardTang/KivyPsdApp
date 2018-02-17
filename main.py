@@ -23,6 +23,7 @@ class MyApp(App):
   def build(self):
     self.prepare()
     self.label.text = self.message
+    Clock.schedule_once(lambda dt: self.searchPsd())
     return self.label
     
   def prepare(self):
@@ -33,7 +34,10 @@ class MyApp(App):
     self.message= self.message + '\n' + inMsg
     self.label.text=self.message
     self.label.refresh()
-
+    
+  def searchPsd(self):
+    Logger.info('searchPsd')
+    pass
     
 if __name__ == '__main__':
   MyApp().run()
