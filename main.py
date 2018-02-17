@@ -5,6 +5,7 @@ from kivy.app import App
 from kivy.uix.label import Label
 from kivy.clock import Clock
 from kivy.logger import Logger
+import os
     
 class MyLabel(Label):
   def on_touch_down(self, touch, after=False):
@@ -37,8 +38,9 @@ class MyApp(App):
     
   def searchPsd(self):
     Logger.info('searchPsd')
+    Logger.info(os.getcwd())
+    
     pass
     
 if __name__ == '__main__':
   MyApp().run()
-
