@@ -11,6 +11,8 @@ from kivy.uix.label import Label
 from kivy.clock import Clock
 from kivy.logger import Logger
 import os
+from psdparser import PSDParser
+
     
 class MyLabel(Label):
   def on_touch_down(self, touch, after=False):
@@ -52,6 +54,12 @@ class MyApp(App):
     dirs = os.listdir( dirPath )
     for file in dirs:
       Logger.info(file)
+    psdFile = os.path.join(dirPath,'01首页-中国.psd')
+    Logger.info('001')
+    parser=PSDParser(psdFile)
+    Logger.info('002')
+    parser.parse()
+    Logger.info('003')
     pass
     
 if __name__ == '__main__':
