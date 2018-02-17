@@ -1,3 +1,8 @@
+# coding:utf-8
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
 import kivy
 kivy.require('1.0.6') # replace with your current kivy version !
 
@@ -40,6 +45,10 @@ class MyApp(App):
     Logger.info('searchPsd')
     Logger.info(os.getcwd())
     dirPath = os.getcwd()
+    dirPath=os.path.join(dirPath,'..')
+    dirPath=os.path.join(dirPath,'..')
+    dirPath=os.path.join(dirPath,'working')
+    dirPath=os.path.join(dirPath,"小程序")
     dirs = os.listdir( dirPath )
     for file in dirs:
       Logger.info(file)
