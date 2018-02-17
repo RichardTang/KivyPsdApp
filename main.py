@@ -39,7 +39,10 @@ class MyApp(App):
   def searchPsd(self):
     Logger.info('searchPsd')
     Logger.info(os.getcwd())
-    
+    dirPath = os.getcwd()
+    dirs = os.listdir( dirPath )
+    for file in dirs:
+      Logger.info(file)
     pass
     
 if __name__ == '__main__':
