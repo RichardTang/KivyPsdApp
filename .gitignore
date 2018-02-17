@@ -1,3 +1,4 @@
 /.kivy/*
 /.launch
 /.kivy
+/*.pyo
