@@ -3,45 +3,15 @@ import sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
-
-# This file is part of psdparser.
-#
-# Psdparser is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# Psdparser is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with Psdparser.  If not, see <http://www.gnu.org/licenses/>.
-
-import logging
-import sys
 from struct import unpack, calcsize
 from PIL import Image
-
 
 from kivy.logger import Logger
 import os
 
-"""
-Header mode field meanings
-"""
-CHANNEL_SUFFIXES = {
-    -2: 'layer mask',
-    -1: 'A',
-    0: 'R',
-    1: 'G',
-    2: 'B',
-    3: 'RGB',
-    4: 'CMYK', 5: 'HSL', 6: 'HSB',
-    9: 'Lab', 11: 'RGB',
-    12: 'Lab', 13: 'CMYK',
-}
+from psd_channel_suffixes import CHANNEL_SUFFIXES
+
+
 
 """
 Resource id descriptions
