@@ -12,17 +12,8 @@ import os
 from psd_channel_suffixes import CHANNEL_SUFFIXES
 from psd_resource_descriptions import RESOURCE_DESCRIPTIONS
 from psd_modes import MODES
+from psd_compressions import  COMPRESSIONS
 
-
-
-
-
-COMPRESSIONS = {
-    0: 'Raw',
-    1: 'RLE',
-    2: 'ZIP',
-    3: 'ZIPPrediction',
-}
 
 BLENDINGS = {
     'norm': 'normal',
