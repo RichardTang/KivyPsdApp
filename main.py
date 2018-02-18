@@ -48,6 +48,11 @@ class MyApp(App):
     Logger.info(os.getcwd())
     dirPath = os.getcwd()
     dirPath=os.path.join(dirPath,'..')
+    destDir=os.path.join(dirPath,'002_home')
+    dirs=os.listdir(destDir)
+    for file in dirs:
+      Logger.info(file)
+      
     dirPath=os.path.join(dirPath,'..')
     dirPath=os.path.join(dirPath,'working')
     dirPath=os.path.join(dirPath,"小程序")
@@ -56,9 +61,9 @@ class MyApp(App):
       Logger.info(file)
     psdFile = os.path.join(dirPath,'01首页-中国.psd')
     Logger.info('001')
-    parser=PSDParser(psdFile)
+    #parser=PSDParser(psdFile)
     Logger.info('002')
-    parser.parse()
+    #parser.parse()
     Logger.info('003')
     pass
     
