@@ -10,29 +10,12 @@ from kivy.logger import Logger
 import os
 
 from psd_channel_suffixes import CHANNEL_SUFFIXES
-
 from psd_resource_descriptions import RESOURCE_DESCRIPTIONS
+from psd_modes import MODES
 
 
 
-MODES = {
-    0:  'Bitmap',
-    1:  'GrayScale',
-    2:  'IndexedColor',
-    3:  'RGBColor',
-    4:  'CMYKColor',
-    5:  'HSLColor',
-    6:  'HSBColor',
-    7:  'Multichannel',
-    8:  'Duotone',
-    9:  'LabColor',
-    10: 'Gray16',
-    11: 'RGB48',
-    12: 'Lab48',
-    13: 'CMYK64',
-    14: 'DeepMultichannel',
-    15: 'Duotone16',
-}
+
 
 COMPRESSIONS = {
     0: 'Raw',
