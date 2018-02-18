@@ -13,21 +13,8 @@ from psd_channel_suffixes import CHANNEL_SUFFIXES
 from psd_resource_descriptions import RESOURCE_DESCRIPTIONS
 from psd_modes import MODES
 from psd_compressions import  COMPRESSIONS
+from psd_blendings import BLENDINGS
 
-
-BLENDINGS = {
-    'norm': 'normal',
-    'dark': 'darken',
-    'mul ': 'multiply',
-    'lite': 'lighten',
-    'scrn': 'screen',
-    'over': 'overlay',
-    'sLit': 'soft-light',
-    'hLit': 'hard-light',
-    'lLit': 'linear-light',
-    'diff': 'difference',
-    'smud': 'exclusion',
-}
 
 PIL_BANDS = {
     'R': 0,
