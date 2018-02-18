@@ -61,9 +61,9 @@ class MyApp(App):
       Logger.info(file)
     psdFile = os.path.join(dirPath,'01首页-中国.psd')
     Logger.info('001')
-    #parser=PSDParser(psdFile)
+    parser=PSDParser(psdFile)
     Logger.info('002')
-    #parser.parse()
+    parser.parse()
     Logger.info('003')
     pass
     
