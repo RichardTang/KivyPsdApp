@@ -14,15 +14,8 @@ from psd_resource_descriptions import RESOURCE_DESCRIPTIONS
 from psd_modes import MODES
 from psd_compressions import  COMPRESSIONS
 from psd_blendings import BLENDINGS
+from psd_pil_bands import PIL_BANDS
 
-
-PIL_BANDS = {
-    'R': 0,
-    'G': 1,
-    'B': 2,
-    'A': 3,
-    'L': 0,
-}
 
 def INDENT_OUTPUT(depth, msg):
     return ''.join(['    ' for i in range(0, depth)]) + msg
