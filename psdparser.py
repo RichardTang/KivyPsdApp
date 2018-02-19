@@ -16,9 +16,8 @@ from psd_compressions import  COMPRESSIONS
 from psd_blendings import BLENDINGS
 from psd_pil_bands import PIL_BANDS
 
+from util_indent_output import INDENT_OUTPUT
 
-def INDENT_OUTPUT(depth, msg):
-    return ''.join(['    ' for i in range(0, depth)]) + msg
 
 class PSDParser(object):
 
