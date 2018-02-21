@@ -17,12 +17,11 @@ from psd_blendings import BLENDINGS
 from psd_pil_bands import PIL_BANDS
 
 from util_indent_output import INDENT_OUTPUT
-from util_file_parser import FileParser
+from util_psd_header_parser import PsdHeaderParser
 
 
-class PSDParser(FileParser):
+class PSDParser(PsdHeaderParser):
 
-    header = None
     ressources = None
     num_layers = 0
     layers = None
@@ -46,7 +45,8 @@ class PSDParser(FileParser):
         self.fd = open(self.filename, 'rb')
         try:
             self.parse_header()
-            self.parse_image_resources()
+            #pass
+            #self.parse_image_resources()
             #self.parse_layers_and_masks()
             #self.parse_image_data()
         finally:
@@ -54,44 +54,6 @@ class PSDParser(FileParser):
 
         Logger.info("")
         Logger.info("DONE")
-
-    def parse_header(self):
-        Logger.info("")
-        Logger.info("# Header #")
-
-        self.header = {}
-
-        C_PSD_HEADER = ">4sH 6B HLLHH"
-        (
-            self.header['sig'],
-            self.header['version'],
-            self.header['r0'],
-            self.header['r1'],
-            self.header['r2'],
-            self.header['r3'],
-            self.header['r4'],
-            self.header['r5'],
-            self.header['channels'],
-            self.header['rows'],
-            self.header['cols'],
-            self.header['depth'],
-            self.header['mode']
-        ) = self._readf(C_PSD_HEADER)
-
-        self.size = [self.header['rows'], self.header['cols']]
-
-        if self.header['sig'] != "8BPS":
-            raise ValueError("Not a PSD signature: '%s'" % self.header['sig'])
-        if self.header['version'] != 1:
-            raise ValueError("Can not handle PSD version:%d" % self.header['version'])
-        self.header['modename'] = MODES[self.header['mode']] if 0 <= self.header['mode'] < 16 else "(%s)" % self.header['mode']
-
-        Logger.info(INDENT_OUTPUT(1, "channels:%(channels)d, rows:%(rows)d, cols:%(cols)d, depth:%(depth)d, mode:%(mode)d [%(modename)s]" % self.header))
-        Logger.info(INDENT_OUTPUT(1, "%s" % self.header))
-
-        # Remember position
-        self.header['colormodepos'] = self.fd.tell()
-        self._skip_block("color mode data", 1)
 
     def parse_image_resources(self):
         def parse_irb():
