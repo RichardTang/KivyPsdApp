@@ -31,14 +31,6 @@ class PSDParser(PsdHeaderParser):
     def __init__(self, filename):
         self.filename = filename
 
-    def _pad2(self, i):
-        """same or next even"""
-        return (i + 1) / 2 * 2
-
-    def _pad4(self, i):
-        """same or next multiple of 4"""
-        return (i + 3) / 4 * 4
-
     def parse(self):
         Logger.info("Opening '%s'" % self.filename)
 
