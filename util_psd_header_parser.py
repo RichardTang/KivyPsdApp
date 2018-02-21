@@ -13,8 +13,9 @@ from util_indent_output import INDENT_OUTPUT
 from util_file_parser import FileParser
 
 from psd_modes import MODES
+from util_psd_common_parser import PsdCommonParser
 
-class PsdHeaderParser(FileParser):
+class PsdHeaderParser(PsdCommonParser):
   header = None
   
   def parse_header(self):
