@@ -48,29 +48,14 @@ class PSDParser(PsdHeaderParser):
         Logger.info("DONE")
 
     def parse_image_resources(self):
-        def parse_irb():
-            """return total bytes in block"""
-            r = {}
-            r['at'] = self.fd.tell()
-            (r['type'], r['id'], r['namelen']) = self._readf(">4s H B")
-            n = self._pad2(r['namelen'] + 1) - 1
-            (r['name'],) = self._readf(">%ds" % n)
-            r['name'] = r['name'][:-1] # skim off trailing 0byte
-            r['short'] = r['name'][:20]
-            (r['size'],) = self._readf(">L")
-            self.fd.seek(self._pad2(r['size']), 1) # 1: relative
-            r['rdesc'] = "[%s]" % RESOURCE_DESCRIPTIONS.get(r['id'], "?")
-            Logger.info(INDENT_OUTPUT(1, "Resource: %s" % r))
-            Logger.info(INDENT_OUTPUT(1, "0x%(at)06x| type:%(type)s, id:%(id)5d, size:0x%(size)04x %(rdesc)s '%(short)s'" % r))
-            self.ressources.append(r)
-            return 4 + 2 + self._pad2(1 + r['namelen']) + 4 + self._pad2(r['size'])
+
 
         Logger.info("")
         Logger.info("# Ressources #")
         self.ressources = []
         (n,) = self._readf(">L") # (n,) is a 1-tuple.
         while n > 0:
-            n -= parse_irb()
+            n -= self.parse_irb()
         if n != 0:
             Logger.info("Image resources overran expected size by %d bytes" % (-n))
 
