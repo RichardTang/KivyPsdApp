@@ -38,7 +38,7 @@ class PSDParser(PsdLayerParser):
         try:
             self.parse_header()
             self.parse_image_resources()
-            #self.parse_layers_and_masks()
+            self.parse_layers_and_masks()
             #self.parse_image_data()
         finally:
             self.fd.close()
@@ -191,7 +191,7 @@ class PSDParser(PsdLayerParser):
             'bool' : _desc_bool,
             'doub' : _desc_doub,
             'tdta' : _desc_tdta,
-            'Objc' : _desc_tdta,#TODO:
+            #'Objc' : _desc_tdta,#TODO:
             }
 
         class_id_name = _unicode_string()
