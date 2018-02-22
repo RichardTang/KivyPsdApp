@@ -15,6 +15,8 @@ from util_file_parser import FileParser
 from psd_modes import MODES
 from util_psd_common_parser import PsdCommonParser
 from util_psd_image_resource_parser import PsdImageResourceParser
+from psd_channel_suffixes import CHANNEL_SUFFIXES
+from psd_blendings import BLENDINGS
 
 class PsdLayerParser(PsdImageResourceParser):
   
