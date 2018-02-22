@@ -17,10 +17,10 @@ from psd_blendings import BLENDINGS
 from psd_pil_bands import PIL_BANDS
 
 from util_indent_output import INDENT_OUTPUT
-from util_psd_image_resource_parser import PsdImageResourceParser
+from util_psd_layer_parser import PsdLayerParser
 
 
-class PSDParser(PsdImageResourceParser):
+class PSDParser(PsdLayerParser):
 
 
     num_layers = 0
@@ -37,7 +37,6 @@ class PSDParser(PsdImageResourceParser):
         self.fd = open(self.filename, 'rb')
         try:
             self.parse_header()
-            #pass
             self.parse_image_resources()
             #self.parse_layers_and_masks()
             #self.parse_image_data()
