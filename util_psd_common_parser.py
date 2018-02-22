@@ -38,8 +38,8 @@ class PsdCommonParser(FileParser):
     (r['size'],) = self._readf(">L")
     self.fd.seek(self._pad2(r['size']), 1) # 1: relative
     r['rdesc'] = "[%s]" % RESOURCE_DESCRIPTIONS.get(r['id'], "?")
-    Logger.info(INDENT_OUTPUT(1, "Resource: %s" % r))
-    Logger.info(INDENT_OUTPUT(1, "0x%(at)06x| type:%(type)s, id:%(id)5d, size:0x%(size)04x %(rdesc)s '%(short)s'" % r))
+    #Logger.info(INDENT_OUTPUT(1, "Resource: %s" % r))
+    #Logger.info(INDENT_OUTPUT(1, "0x%(at)06x| type:%(type)s, id:%(id)5d, size:0x%(size)04x %(rdesc)s '%(short)s'" % r))
     self.ressources.append(r)
     return 4 + 2 + self._pad2(1 + r['namelen']) + 4 + self._pad2(r['size'])
             
