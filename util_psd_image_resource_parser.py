@@ -17,5 +17,14 @@ from util_psd_common_parser import PsdCommonParser
 from util_psd_header_parser import PsdHeaderParser
 
 class PsdImageResourceParser(PsdHeaderParser):
-  pass
+  ressources = None
   
+  def parse_image_resources(self):
+    Logger.info("")
+    Logger.info("# Ressources #")
+    self.ressources = []
+    (n,) = self._readf(">L") # (n,) is a 1-tuple.
+    while n > 0:
+      n -= self.parse_irb()
+    if n != 0:
+      Logger.info("Image resources overran expected size by %d bytes" % (-n))

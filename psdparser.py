@@ -22,7 +22,7 @@ from util_psd_image_resource_parser import PsdImageResourceParser
 
 class PSDParser(PsdImageResourceParser):
 
-    ressources = None
+
     num_layers = 0
     layers = None
     images = None
@@ -47,17 +47,7 @@ class PSDParser(PsdImageResourceParser):
         Logger.info("")
         Logger.info("DONE")
 
-    def parse_image_resources(self):
 
-
-        Logger.info("")
-        Logger.info("# Ressources #")
-        self.ressources = []
-        (n,) = self._readf(">L") # (n,) is a 1-tuple.
-        while n > 0:
-            n -= self.parse_irb()
-        if n != 0:
-            Logger.info("Image resources overran expected size by %d bytes" % (-n))
 
     def parse_image(self, li, is_layer=True):
         def parse_channel(li, idx, count, rows, cols, depth):
