@@ -10,6 +10,8 @@ from kivy.logger import Logger
 import os
 
 from util_indent_output import INDENT_OUTPUT
+from psd_resource_descriptions import RESOURCE_DESCRIPTIONS
+
 from util_file_parser import FileParser
 
 from psd_modes import MODES

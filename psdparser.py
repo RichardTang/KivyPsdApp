@@ -38,7 +38,7 @@ class PSDParser(PsdImageResourceParser):
         try:
             self.parse_header()
             #pass
-            #self.parse_image_resources()
+            self.parse_image_resources()
             #self.parse_layers_and_masks()
             #self.parse_image_data()
         finally:
