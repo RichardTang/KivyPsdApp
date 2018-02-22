@@ -17,10 +17,10 @@ from psd_blendings import BLENDINGS
 from psd_pil_bands import PIL_BANDS
 
 from util_indent_output import INDENT_OUTPUT
-from util_psd_header_parser import PsdHeaderParser
+from util_psd_image_resource_parser import PsdImageResourceParser
 
 
-class PSDParser(PsdHeaderParser):
+class PSDParser(PsdImageResourceParser):
 
     ressources = None
     num_layers = 0
