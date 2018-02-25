@@ -19,6 +19,20 @@ from psd_channel_suffixes import CHANNEL_SUFFIXES
 from psd_blendings import BLENDINGS
 
 class PsdLayerParser(PsdImageResourceParser):
+  def parse_layer_mask(self):
+    #
+    # Layer mask data
+    #
+    m = {}
+    (m['size'],) = self._readf(">L")
+    if m['size']:
+      (m['top'], m['left'], m['bottom'], m['right'], m['default_color'], m['flags'],
+      ) = self._readf(">llllBB")
+      # skip remainder
+      self.fd.seek(m['size'] - 18, 1) # 1: SEEK_CUR
+      m['rows'], m['cols'] = m['bottom'] - m['top'], m['right'] - m['left']
+    return m
+
   def merge_image(self, linfo):
     for i in range(self.num_layers):
       # Empty layer
@@ -97,18 +111,8 @@ class PsdLayerParser(PsdImageResourceParser):
       # remember position for skipping unrecognized data
       (extralen,) = self._readf(">L")
       extrastart = self.fd.tell()
-      #
-      # Layer mask data
-      #
-      m = {}
-      (m['size'],) = self._readf(">L")
-      if m['size']:
-        (m['top'], m['left'], m['bottom'], m['right'], m['default_color'], m['flags'],
-        ) = self._readf(">llllBB")
-        # skip remainder
-        self.fd.seek(m['size'] - 18, 1) # 1: SEEK_CUR
-        m['rows'], m['cols'] = m['bottom'] - m['top'], m['right'] - m['left']
-      l['mask'] = m
+
+      l['mask'] = self.parse_layer_mask()
       self._skip_block("layer blending ranges", 3)
       #
       # Layer name
