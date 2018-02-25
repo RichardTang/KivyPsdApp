@@ -19,6 +19,19 @@ from psd_channel_suffixes import CHANNEL_SUFFIXES
 from psd_blendings import BLENDINGS
 
 class PsdLayerParser(PsdImageResourceParser):
+  def parse_layer_blend_mode(self):
+    #
+    # Blend mode
+    #
+    bm = {}
+    (bm['sig'], bm['key'], bm['opacity'], bm['clipping'], bm['flags'], bm['filler'],
+    ) = self._readf(">4s4sBBBB")
+    bm['opacp'] = (bm['opacity'] * 100 + 127) / 255
+    bm['clipname'] = bm['clipping'] and "non-base" or "base"
+    bm['blending'] = BLENDINGS.get(bm['key'])
+    Logger.info(INDENT_OUTPUT(3, "Blending mode: sig=%(sig)s key=%(key)s opacity=%(opacity)d(%(opacp)d%%) clipping=%(clipping)d(%(clipname)s) flags=%(flags)x" % bm))
+    return bm
+  
   def parse_layer_mask(self):
     #
     # Layer mask data
@@ -97,17 +110,7 @@ class PsdLayerParser(PsdImageResourceParser):
         l['chidstr'] = CHANNEL_SUFFIXES.get(chid, "?")
       # put channel info into connection
       linfo.append(l)
-      #
-      # Blend mode
-      #
-      bm = {}
-      (bm['sig'], bm['key'], bm['opacity'], bm['clipping'], bm['flags'], bm['filler'],
-      ) = self._readf(">4s4sBBBB")
-      bm['opacp'] = (bm['opacity'] * 100 + 127) / 255
-      bm['clipname'] = bm['clipping'] and "non-base" or "base"
-      bm['blending'] = BLENDINGS.get(bm['key'])
-      l['blend_mode'] = bm
-      Logger.info(INDENT_OUTPUT(3, "Blending mode: sig=%(sig)s key=%(key)s opacity=%(opacity)d(%(opacp)d%%) clipping=%(clipping)d(%(clipname)s) flags=%(flags)x" % bm))
+      l['blend_mode'] = self.parse_layer_blend_mode()
       # remember position for skipping unrecognized data
       (extralen,) = self._readf(">L")
       extrastart = self.fd.tell()
