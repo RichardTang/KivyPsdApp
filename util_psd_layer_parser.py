@@ -19,6 +19,26 @@ from psd_channel_suffixes import CHANNEL_SUFFIXES
 from psd_blendings import BLENDINGS
 
 class PsdLayerParser(PsdImageResourceParser):
+  def merge_image(self, linfo):
+    for i in range(self.num_layers):
+      # Empty layer
+      if linfo[i]['rows'] * linfo[i]['cols'] == 0:
+        self.images.append(None)
+        self.parse_image(linfo[i], is_layer=True)
+        continue
+      self.images.append([0, 0, 0, 0])
+      self.parse_image(linfo[i], is_layer=True)
+      if linfo[i]['channels'] == 2:
+        l = self.images[i][0]
+        a = self.images[i][3]
+        self.images[i] = Image.merge('LA', [l, a])
+      else:
+        # is there an alpha channel?
+        if type(self.images[i][3]) is int:
+          self.images[i] = Image.merge('RGB', self.images[i][0:3])
+        else:
+          self.images[i] = Image.merge('RGBA', self.images[i])
+    
   def parse_layerlen(self,layerlen):
     # layers structure
     (self.num_layers,) = self._readf(">h")
@@ -141,24 +161,7 @@ class PsdLayerParser(PsdImageResourceParser):
       # Skip over any extra data
       self.fd.seek(extrastart + extralen, 0) # 0: SEEK_SET
       self.layers.append(l)
-    for i in range(self.num_layers):
-      # Empty layer
-      if linfo[i]['rows'] * linfo[i]['cols'] == 0:
-        self.images.append(None)
-        self.parse_image(linfo[i], is_layer=True)
-        continue
-      self.images.append([0, 0, 0, 0])
-      self.parse_image(linfo[i], is_layer=True)
-      if linfo[i]['channels'] == 2:
-        l = self.images[i][0]
-        a = self.images[i][3]
-        self.images[i] = Image.merge('LA', [l, a])
-      else:
-        # is there an alpha channel?
-        if type(self.images[i][3]) is int:
-          self.images[i] = Image.merge('RGB', self.images[i][0:3])
-        else:
-          self.images[i] = Image.merge('RGBA', self.images[i])
+    self.merge_image(linfo);
   
   def parse_misclen(self):
     miscstart = self.fd.tell()
