@@ -176,7 +176,7 @@ class PsdLayerParser(PsdLayerImageParser):
     self.merge_image(linfo);
     Logger.info('merge_image done')
   
-  def parse_misclen(self):
+  def parse_misclen(self, misclen):
     miscstart = self.fd.tell()
     # process layer info section
     (layerlen,) = self._readf(">L")
@@ -205,7 +205,8 @@ class PsdLayerParser(PsdLayerImageParser):
     self.header['mergedalpha'] = False
     (misclen,) = self._readf(">L")
     if misclen:
-      self.parse_misclen()
+      self.parse_misclen(misclen)
+      Logger.info('Misc info section is parsed')
     else:
       Logger.info(INDENT_OUTPUT(1, "Misc info section is empty"))
 
