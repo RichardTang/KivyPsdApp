@@ -55,12 +55,12 @@ class PsdLayerImageParser(PsdImageResourceParser):
       len = 4
     return self._readf(">%ds" % len)[0]
 
-  def _desc_tdta():
+  def _desc_tdta(self):
     # Apparently it is pdf data?
     # http://telegraphics.com.au/svn/psdparse
     # descriptor.c pdf.c
-
     len = self._readf(">L")[0]
+    Logger.info('len=%d' % len)
     pdf_data = self.fd.read(len)
     return pdf_data
     
@@ -91,8 +91,9 @@ class PsdLayerImageParser(PsdImageResourceParser):
         Logger.info(INDENT_OUTPUT(4, "unknown descriptor item '%s', skipping ahead." % item_type))
         break
 
-      Logger.info("%s" % item_type)
+      Logger.info('%s for %s' % (item_type, item_key))
       items[item_key] = _desc_item_factory[item_type]()
-      Logger.info(INDENT_OUTPUT(4, "item['%s']='%r'" % (item_key,items[item_key])))
+      Logger.info('%s done %s' % (item_type, item_key))
+      #Logger.info(INDENT_OUTPUT(4, "item['%s']='%r'" % (item_key,items[item_key])))
       #print items[item_key]
     return items
