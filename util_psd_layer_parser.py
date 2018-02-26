@@ -49,12 +49,15 @@ class PsdLayerParser(PsdLayerImageParser):
 
   def merge_image(self, linfo):
     for i in range(self.num_layers):
+      Logger.info('before parse_image')
       # Empty layer
       if linfo[i]['rows'] * linfo[i]['cols'] == 0:
         self.images.append(None)
+
         self.parse_image(linfo[i], is_layer=True)
         continue
       self.images.append([0, 0, 0, 0])
+      Logger.info('before parse_image1')
       self.parse_image(linfo[i], is_layer=True)
       Logger.info('XXXXXX i=%d rows=%d cols=%d' % (i,linfo[i]['rows'],linfo[i]['cols']))
       if linfo[i]['channels'] == 2:
@@ -171,6 +174,7 @@ class PsdLayerParser(PsdLayerImageParser):
       self.fd.seek(extrastart + extralen, 0) # 0: SEEK_SET
       self.layers.append(l)
     self.merge_image(linfo);
+    Logger.info('merge_image done')
   
   def parse_misclen(self):
     miscstart = self.fd.tell()
