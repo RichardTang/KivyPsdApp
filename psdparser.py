@@ -25,8 +25,6 @@ class PSDParser(PsdLayerParser):
 
     num_layers = 0
     layers = None
-    images = None
-    merged_image = None
 
     def __init__(self, filename):
         self.filename = filename
@@ -45,101 +43,6 @@ class PSDParser(PsdLayerParser):
 
         Logger.info("")
         Logger.info("DONE")
-
-
-
-    def parse_image(self, li, is_layer=True):
-        def parse_channel(li, idx, count, rows, cols, depth):
-            """params:
-            li -- layer info struct
-            idx -- channel number
-            count -- number of channels to process ???
-            rows, cols -- dimensions
-            depth -- bits
-            """
-            chlen = li['chlengths'][idx]
-            if chlen is not None  and  chlen < 2:
-                raise ValueError("Not enough channel data: %s" % chlen)
-            if li['chids'][idx] == -2:
-                rows, cols = li['mask']['rows'], li['mask']['cols']
-
-            rb = (cols * depth + 7) / 8 # round to next byte
-
-            # channel header
-            chpos = self.fd.tell()
-            (comp,) = self._readf(">H")
-
-            if chlen:
-                chlen -= 2
-
-            pos = self.fd.tell()
-
-            # If empty layer
-            if cols * rows == 0:
-                Logger.info(INDENT_OUTPUT(1, "Empty channel, skiping"))
-                return
-
-            if COMPRESSIONS.get(comp) == 'RLE':
-                Logger.info(INDENT_OUTPUT(1, "Handling RLE compressed data"))
-                rlecounts = 2 * count * rows
-                if chlen and chlen < rlecounts:
-                    raise ValueError("Channel too short for RLE row counts (need %d bytes, have %d bytes)" % (rlecounts,chlen))
-                pos += rlecounts # image data starts after RLE counts
-                rlecounts_data = self._readf(">%dH" % (count * rows))
-                for ch in range(count):
-                    rlelen_for_channel = sum(rlecounts_data[ch * rows:(ch + 1) * rows])
-                    data = self.fd.read(rlelen_for_channel)
-                    channel_name = CHANNEL_SUFFIXES[li['chids'][idx]]
-                    if li['channels'] == 2 and channel_name == 'B': channel_name = 'L'
-                    p = Image.fromstring("L", (cols, rows), data, "packbits", "L" )
-                    if is_layer:
-                        if channel_name in PIL_BANDS:
-                            self.images[li['idx']][PIL_BANDS[channel_name]] = p
-                    else:
-                        self.merged_image.append(p)
-
-            elif COMPRESSIONS.get(comp) == 'Raw':
-                Logger.info(INDENT_OUTPUT(1, "Handling Raw compressed data"))
-
-                for ch in range(count):
-                    data = self.fd.read(cols * rows)
-                    channel_name = CHANNEL_SUFFIXES[li['chids'][idx]]
-                    if li['channels'] == 2 and channel_name == 'B': channel_name = 'L'
-                    p = Image.fromstring("L", (cols, rows), data, "raw", "L")
-                    if is_layer:
-                        if channel_name in PIL_BANDS:
-                            self.images[li['idx']][PIL_BANDS[channel_name]] = p
-                    else:
-                        self.merged_image.append(p)
-
-            else:
-                # TODO: maybe just skip channel...:
-                #   f.seek(chlen, SEEK_CUR)
-                #   return
-                raise ValueError("Unsupported compression type: %s" % COMPRESSIONS.get(comp, comp))
-
-            if (chlen is not None) and (self.fd.tell() != chpos + 2 + chlen):
-                Logger.info("currentpos:%d should be:%d!" % (f.tell(), chpos + 2 + chlen))
-                self.fd.seek(chpos + 2 + chlen, 0) # 0: SEEK_SET
-
-            return
-
-        if not self.header:
-            self.parse_header()
-        if not self.ressources:
-            self._skip_block("image resources", new_line=True)
-            self.ressources = 'not parsed'
-
-        Logger.info("")
-        Logger.info("# Image: %s/%d #" % (li['name'], li['channels']))
-
-        # channels
-        if is_layer:
-            for ch in range(li['channels']):
-                parse_channel(li, ch, 1, li['rows'], li['cols'], self.header['depth'])
-        else:
-            parse_channel(li, 0, li['channels'], li['rows'], li['cols'], self.header['depth'])
-        return
 
     def parse_image_data(self):
 
