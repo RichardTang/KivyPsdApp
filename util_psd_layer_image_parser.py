@@ -43,6 +43,12 @@ class PsdLayerImageParser(PsdImageResourceParser):
   def _desc_doub(self):
     return self._readf(">d")[0]
 
+  def _desc_untf(self):
+    untf = {}
+    untf['desc'] = self._readf(">4s")[0]
+    untf['value'] = self._readf(">d")[0]
+    return untf
+
   def _string_or_key(self):
     len = self._readf(">L")[0]
     if not len:
@@ -66,8 +72,9 @@ class PsdLayerImageParser(PsdImageResourceParser):
       'long' : self._desc_long,
       'bool' : self._desc_bool,
       'doub' : self._desc_doub,
+      'UntF' : self._desc_untf,
       'tdta' : self._desc_tdta,
-      #'Objc' : _desc_tdta,#TODO:
+      'Objc' : self._read_descriptor,
     }
 
     class_id_name = self._unicode_string()
@@ -84,7 +91,8 @@ class PsdLayerImageParser(PsdImageResourceParser):
         Logger.info(INDENT_OUTPUT(4, "unknown descriptor item '%s', skipping ahead." % item_type))
         break
 
+      Logger.info("%s" % item_type)
       items[item_key] = _desc_item_factory[item_type]()
-      #Logger.info(INDENT_OUTPUT(4, "item['%s']='%r'" % (item_key,items[item_key])))
+      Logger.info(INDENT_OUTPUT(4, "item['%s']='%r'" % (item_key,items[item_key])))
       #print items[item_key]
     return items
