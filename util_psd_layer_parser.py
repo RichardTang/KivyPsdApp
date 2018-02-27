@@ -138,8 +138,7 @@ class PsdLayerParser(PsdLayerImageParser):
       #
       while self.fd.tell() < extrastart + extralen:
         (signature, key, size, ) = self._readf(">4s4sL") # (n,) is a 1-tuple.
-        Logger.info(INDENT_OUTPUT(3, "Addl info: sig='%s' key='%s' size='%d'" %
-                      (signature, key, size)))
+        #Logger.info(INDENT_OUTPUT(3, "Addl info: sig='%s' key='%s' size='%d'" % (signature, key, size)))
         next_addl_offset = self.fd.tell() + self._pad2(size)
         if key == 'luni':
           namelen = self._readf(">L")[0]
