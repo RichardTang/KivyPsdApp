@@ -131,7 +131,7 @@ class PsdLayerParser(PsdLayerImageParser):
       # - "-1": one byte traling 0byte. "-1": one byte garble.
       # (l['name'],) = readf(f, ">%ds" % (self._pad4(1+l['namelen'])-2))
       (l['name'],) = self._readf(">%ds" % (l['namelen']))
-      Logger.info(INDENT_OUTPUT(3, "Name: '%s'" % l['name']))
+      Logger.info(INDENT_OUTPUT(3, "Name: '%s' visible:%d" % (l['name'],(l['blend_mode']['flags']>>1&1))))
       self.fd.seek(addl_layer_data_start, 0)
       #
       # Read add'l Layer Information
