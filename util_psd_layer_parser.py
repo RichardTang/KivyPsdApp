@@ -30,7 +30,7 @@ class PsdLayerParser(PsdLayerImageParser):
     bm['opacp'] = (bm['opacity'] * 100 + 127) / 255
     bm['clipname'] = bm['clipping'] and "non-base" or "base"
     bm['blending'] = BLENDINGS.get(bm['key'])
-    Logger.info(INDENT_OUTPUT(3, "Blending mode: sig=%(sig)s key=%(key)s opacity=%(opacity)d(%(opacp)d%%) clipping=%(clipping)d(%(clipname)s) flags=%(flags)x" % bm))
+    #Logger.info(INDENT_OUTPUT(3, "Blending mode: sig=%(sig)s key=%(key)s opacity=%(opacity)d(%(opacp)d%%) clipping=%(clipping)d(%(clipname)s) flags=%(flags)x" % bm))
     return bm
   
   def parse_layer_mask(self):
@@ -49,7 +49,7 @@ class PsdLayerParser(PsdLayerImageParser):
 
   def merge_image(self, linfo):
     for i in range(self.num_layers):
-      Logger.info('before parse_image')
+      #Logger.info('before parse_image')
       # Empty layer
       if linfo[i]['rows'] * linfo[i]['cols'] == 0:
         self.images.append(None)
@@ -206,7 +206,7 @@ class PsdLayerParser(PsdLayerImageParser):
     (misclen,) = self._readf(">L")
     if misclen:
       self.parse_misclen(misclen)
-      Logger.info('Misc info section is parsed')
+      #Logger.info('Misc info section is parsed')
     else:
       Logger.info(INDENT_OUTPUT(1, "Misc info section is empty"))
 

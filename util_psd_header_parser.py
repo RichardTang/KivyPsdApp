@@ -51,8 +51,8 @@ class PsdHeaderParser(PsdCommonParser):
     self.header['modename'] = MODES[self.header['mode']] if 0 <= self.header['mode'] < 16 else "(%s)" % self.header['mode']
     #Logger.info("22222222")
 
-    Logger.info(INDENT_OUTPUT(1, "channels:%(channels)d, rows:%(rows)d, cols:%(cols)d, depth:%(depth)d, mode:%(mode)d [%(modename)s]" % self.header))
-    Logger.info(INDENT_OUTPUT(1, "%s" % self.header))
+    #Logger.info(INDENT_OUTPUT(1, "channels:%(channels)d, rows:%(rows)d, cols:%(cols)d, depth:%(depth)d, mode:%(mode)d [%(modename)s]" % self.header))
+    #Logger.info(INDENT_OUTPUT(1, "%s" % self.header))
 
     # Remember position
     self.header['colormodepos'] = self.fd.tell()
