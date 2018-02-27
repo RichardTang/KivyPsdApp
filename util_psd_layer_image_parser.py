@@ -62,25 +62,25 @@ class PsdLayerImageParser(PsdLayerDescriptorParser):
       for ch in range(count):
         Logger.info('ch=%d' % ch)
         rlelen_for_channel = sum(rlecounts_data[ch * rows:(ch + 1) * rows])
-        Logger.info('000001')
+        #Logger.info('000001')
         data = self.fd.read(rlelen_for_channel)
-        Logger.info('0000011')
+        #Logger.info('0000011')
         Logger.info('idx=%d' % idx)
         Logger.info('%d' % (li['chids'][idx]))
         channel_name = CHANNEL_SUFFIXES[li['chids'][idx]]
-        Logger.info('000002')
+        #Logger.info('000002')
         if li['channels'] == 2 and channel_name == 'B': channel_name = 'L'
         p = Image.fromstring("L", (cols, rows), data, "packbits", "L" )
-        Logger.info('000003')
+        #Logger.info('000003')
         if is_layer:
-          Logger.info('0000030')
+          #Logger.info('0000030')
           if channel_name in PIL_BANDS:
-            Logger.info('0000031')
+            #Logger.info('0000031')
             self.images[li['idx']][PIL_BANDS[channel_name]] = p
         else:
-          Logger.info('0000032')
+          #Logger.info('0000032')
           self.merged_image.append(p)
-        Logger.info('000004')
+        #Logger.info('000004')
     elif COMPRESSIONS.get(comp) == 'Raw':
       Logger.info(INDENT_OUTPUT(1, "Handling Raw compressed data"))
 
