@@ -106,7 +106,7 @@ class PsdLayerParser(PsdLayerImageParser):
         chid, chlen = self._readf(">hL")
         l['chids'].append(chid)
         l['chlengths'].append(chlen)
-        Logger.info(INDENT_OUTPUT(3, "Channel %2d: id=%2d, %5d bytes" % (j, chid, chlen)))
+        #Logger.info(INDENT_OUTPUT(3, "Channel %2d: id=%2d, %5d bytes" % (j, chid, chlen)))
         if -2 <= chid < l['channels']:
           # pythons negative list-indexs: [ 0, 1, 2, 3, ... -2, -1]
           l['chindex'][chid] = j
