@@ -53,20 +53,20 @@ class PsdLayerImageParser(PsdLayerDescriptorParser):
       return
 
     if COMPRESSIONS.get(comp) == 'RLE':
-      Logger.info(INDENT_OUTPUT(1, "Handling RLE compressed data"))
+      #Logger.info(INDENT_OUTPUT(1, "Handling RLE compressed data"))
       rlecounts = 2 * count * rows
       if chlen and chlen < rlecounts:
         raise ValueError("Channel too short for RLE row counts (need %d bytes, have %d bytes)" % (rlecounts,chlen))
       pos += rlecounts # image data starts after RLE counts
       rlecounts_data = self._readf(">%dH" % (count * rows))
       for ch in range(count):
-        Logger.info('ch=%d' % ch)
+        #Logger.info('ch=%d' % ch)
         rlelen_for_channel = sum(rlecounts_data[ch * rows:(ch + 1) * rows])
         #Logger.info('000001')
         data = self.fd.read(rlelen_for_channel)
         #Logger.info('0000011')
-        Logger.info('idx=%d' % idx)
-        Logger.info('%d' % (li['chids'][idx]))
+        #Logger.info('idx=%d' % idx)
+        #Logger.info('%d' % (li['chids'][idx]))
         channel_name = CHANNEL_SUFFIXES[li['chids'][idx]]
         #Logger.info('000002')
         if li['channels'] == 2 and channel_name == 'B': channel_name = 'L'
@@ -82,7 +82,7 @@ class PsdLayerImageParser(PsdLayerDescriptorParser):
           self.merged_image.append(p)
         #Logger.info('000004')
     elif COMPRESSIONS.get(comp) == 'Raw':
-      Logger.info(INDENT_OUTPUT(1, "Handling Raw compressed data"))
+      #Logger.info(INDENT_OUTPUT(1, "Handling Raw compressed data"))
 
       for ch in range(count):
         data = self.fd.read(cols * rows)
@@ -100,13 +100,13 @@ class PsdLayerImageParser(PsdLayerDescriptorParser):
       #   f.seek(chlen, SEEK_CUR)
       #   return
       raise ValueError("Unsupported compression type: %s" % COMPRESSIONS.get(comp, comp))
-    Logger.info('000005')
-    Logger.info('chlen=%d' % chlen)
-    Logger.info('chpos=%d' % chpos)
+    #Logger.info('000005')
+    #Logger.info('chlen=%d' % chlen)
+    #Logger.info('chpos=%d' % chpos)
     if (chlen is not None) and (self.fd.tell() != chpos + 2 + chlen):
       Logger.info("currentpos:%d should be:%d!" % (self.fd.tell(), chpos + 2 + chlen))
       self.fd.seek(chpos + 2 + chlen, 0) # 0: SEEK_SET
-    Logger.info('end of parse channel')
+    #Logger.info('end of parse channel')
     return
 
 
@@ -117,8 +117,8 @@ class PsdLayerImageParser(PsdLayerDescriptorParser):
       self._skip_block("image resources", new_line=True)
       self.ressources = 'not parsed'
 
-    Logger.info("")
-    Logger.info("# Image: %s/%d #" % (li['name'], li['channels']))
+    #Logger.info("")
+    #Logger.info("# Image: %s/%d #" % (li['name'], li['channels']))
 
     # channels
     if is_layer:
@@ -126,5 +126,5 @@ class PsdLayerImageParser(PsdLayerDescriptorParser):
         self.parse_channel(li, ch, 1, li['rows'], li['cols'], self.header['depth'], is_layer)
     else:
       self.parse_channel(li, 0, li['channels'], li['rows'], li['cols'], self.header['depth'], is_layer)
-    Logger.info('end of parse image')
+    #Logger.info('end of parse image')
     return
