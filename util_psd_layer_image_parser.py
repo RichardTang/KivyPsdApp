@@ -49,7 +49,7 @@ class PsdLayerImageParser(PsdLayerDescriptorParser):
 
     # If empty layer
     if cols * rows == 0:
-      Logger.info(INDENT_OUTPUT(1, "Empty channel, skiping"))
+      #Logger.info(INDENT_OUTPUT(1, "Empty channel, skiping"))
       return
 
     if COMPRESSIONS.get(comp) == 'RLE':

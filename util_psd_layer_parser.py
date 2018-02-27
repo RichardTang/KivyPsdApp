@@ -157,11 +157,9 @@ class PsdLayerParser(PsdLayerImageParser):
           warp_desc_version = self._readf(">L")[0]
           warp_desc = self._read_descriptor()
           (left,top,right,bottom,) = self._readf(">llll")
-          Logger.info(INDENT_OUTPUT(4, "ver=%d tver=%d dver=%d"
-                 % (version, text_version, text_desc_version)))
-          Logger.info(INDENT_OUTPUT(4, "%f %f %f %f %f %f" % (xx, xy, yx, yy, tx, ty,)))
-          Logger.info(INDENT_OUTPUT(4, "l=%f t=%f r=%f b=%f"
-                 % (left, top, right, bottom)))
+          #Logger.info(INDENT_OUTPUT(4, "ver=%d tver=%d dver=%d" % (version, text_version, text_desc_version)))
+          #Logger.info(INDENT_OUTPUT(4, "%f %f %f %f %f %f" % (xx, xy, yx, yy, tx, ty,)))
+          #Logger.info(INDENT_OUTPUT(4, "l=%f t=%f r=%f b=%f" % (left, top, right, bottom)))
           l['text_layer'] = {}
           l['text_layer']['text_desc'] = text_desc
           l['text_layer']['text_transform'] = (xx, xy, yx, yy, tx, ty,)

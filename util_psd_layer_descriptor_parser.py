@@ -79,7 +79,7 @@ class PsdLayerDescriptorParser(PsdImageResourceParser):
 
     class_id_name = self._unicode_string()
     class_id = self._string_or_key()
-    Logger.info(INDENT_OUTPUT(4, u"name='%s' clsid='%s'" % (class_id_name, class_id)))
+    #Logger.info(INDENT_OUTPUT(4, u"name='%s' clsid='%s'" % (class_id_name, class_id)))
 
     item_count = self._readf(">L")[0]
     #Logger.info(INDENT_OUTPUT(4, "item_count=%d" % (item_count)))
