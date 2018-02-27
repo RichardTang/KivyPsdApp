@@ -18,6 +18,7 @@ from util_psd_image_resource_parser import PsdImageResourceParser
 from psd_channel_suffixes import CHANNEL_SUFFIXES
 from psd_blendings import BLENDINGS
 from util_psd_layer_image_parser import PsdLayerImageParser
+import json
 
 class PsdLayerParser(PsdLayerImageParser):
   def parse_layer_blend_mode(self):
@@ -107,7 +108,7 @@ class PsdLayerParser(PsdLayerImageParser):
         l['chids'].append(chid)
         l['chlengths'].append(chlen)
         #Logger.info(INDENT_OUTPUT(3, "Channel %2d: id=%2d, %5d bytes" % (j, chid, chlen)))
-        if -2 <= chid < l['channels']:
+        if -3 <= chid < l['channels']:
           # pythons negative list-indexs: [ 0, 1, 2, 3, ... -2, -1]
           l['chindex'][chid] = j
         else:
@@ -173,6 +174,12 @@ class PsdLayerParser(PsdLayerImageParser):
       self.layers.append(l)
       if visible_bit == 1:
         Logger.info(INDENT_OUTPUT(1, "layer %(idx)d: (%(left)4d,%(top)4d,%(right)4d,%(bottom)4d), %(channels)d channels (%(cols)4d cols x %(rows)4d rows) Name:%(name)s" % l))
+        if l.has_key('text_layer'):
+          Logger.info("%s" % l['text_layer']['text_desc']['Txt '])
+          pass
+          #text_layer = l['text_layer']
+          #json.dumps(text_layer)
+          #Logger.info(json.dumps(l['text_layer']))
     self.merge_image(linfo);
     #Logger.info('merge_image done')
   
