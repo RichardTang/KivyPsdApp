@@ -90,7 +90,7 @@ class PsdLayerParser(PsdLayerImageParser):
       #
       (l['top'], l['left'], l['bottom'], l['right'], l['channels']) = self._readf(">llllH")
       (l['rows'], l['cols']) = (l['bottom'] - l['top'], l['right'] - l['left'])
-      Logger.info(INDENT_OUTPUT(1, "layer %(idx)d: (%(left)4d,%(top)4d,%(right)4d,%(bottom)4d), %(channels)d channels (%(cols)4d cols x %(rows)4d rows)" % l))
+      #Logger.info(INDENT_OUTPUT(1, "layer %(idx)d: (%(left)4d,%(top)4d,%(right)4d,%(bottom)4d), %(channels)d channels (%(cols)4d cols x %(rows)4d rows)" % l))
       # Sanity check
       if l['bottom'] < l['top'] or l['right'] < l['left'] or l['channels'] > 64:
         Logger.info(INDENT_OUTPUT(2, "Something's not right about that, trying to skip layer."))
@@ -116,6 +116,7 @@ class PsdLayerParser(PsdLayerImageParser):
       # put channel info into connection
       linfo.append(l)
       l['blend_mode'] = self.parse_layer_blend_mode()
+      visible_bit = (l['blend_mode']['flags']>>1&1)
       # remember position for skipping unrecognized data
       (extralen,) = self._readf(">L")
       extrastart = self.fd.tell()
@@ -131,7 +132,7 @@ class PsdLayerParser(PsdLayerImageParser):
       # - "-1": one byte traling 0byte. "-1": one byte garble.
       # (l['name'],) = readf(f, ">%ds" % (self._pad4(1+l['namelen'])-2))
       (l['name'],) = self._readf(">%ds" % (l['namelen']))
-      Logger.info(INDENT_OUTPUT(3, "Name: '%s' visible:%d" % (l['name'],(l['blend_mode']['flags']>>1&1))))
+      #Logger.info(INDENT_OUTPUT(3, "Name: '%s' visible:%d" % (l['name'],visible_bit)))
       self.fd.seek(addl_layer_data_start, 0)
       #
       # Read add'l Layer Information
@@ -145,7 +146,7 @@ class PsdLayerParser(PsdLayerImageParser):
           l['name'] = u''
           for count in range(0, namelen):
             l['name'] += unichr(self._readf(">H")[0])
-          Logger.info(INDENT_OUTPUT(4, u"Unicode Name: '%s'" % l['name']))
+          #Logger.info(INDENT_OUTPUT(4, u"Unicode Name: '%s'" % l['name']))
         elif key == 'TySh':
           version = self._readf(">H")[0]
           (xx, xy, yx, yy, tx, ty,) = self._readf(">dddddd") #transform
@@ -172,6 +173,8 @@ class PsdLayerParser(PsdLayerImageParser):
       # Skip over any extra data
       self.fd.seek(extrastart + extralen, 0) # 0: SEEK_SET
       self.layers.append(l)
+      if visible_bit == 1:
+        Logger.info(INDENT_OUTPUT(1, "layer %(idx)d: (%(left)4d,%(top)4d,%(right)4d,%(bottom)4d), %(channels)d channels (%(cols)4d cols x %(rows)4d rows) Name:%(name)s" % l))
     self.merge_image(linfo);
     #Logger.info('merge_image done')
   
