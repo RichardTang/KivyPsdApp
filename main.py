@@ -12,7 +12,7 @@ from kivy.clock import Clock
 from kivy.logger import Logger
 import os
 from psdparser import PSDParser
-
+from kivy.uix.image import Image
     
 class MyLabel(Label):
   def on_touch_down(self, touch, after=False):
@@ -27,12 +27,19 @@ class MyLabel(Label):
 class MyApp(App):
   message=''
   label = MyLabel(text='KivyPsdApp')
+  psdParser=None
   
   def build(self):
     self.prepare()
     self.label.text = self.message
-    Clock.schedule_once(lambda dt: self.searchPsd())
-    return self.label
+    #Clock.schedule_once(lambda dt: self.searchPsd())
+    self.searchPsd()
+    #return self.label
+    self.psdParser.merged_image.save('mmm.png', 'PNG')
+    Logger.info('sss001')
+    img = Image(source='mmm.png')
+    Logger.info('sss002')
+    return img
     
   def prepare(self):
     self.message='xxxxxxx'
@@ -65,6 +72,7 @@ class MyApp(App):
     Logger.info('002')
     parser.parse()
     Logger.info('003')
+    self.psdParser = parser
     pass
     
 if __name__ == '__main__':
