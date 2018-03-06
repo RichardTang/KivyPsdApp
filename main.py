@@ -33,13 +33,13 @@ class MyApp(App):
     self.prepare()
     self.label.text = self.message
     #Clock.schedule_once(lambda dt: self.searchPsd())
-    self.searchPsd()
+    #self.searchPsd()
     #return self.label
-    self.psdParser.merged_image.save('mmm.png', 'PNG')
-    Logger.info('sss001')
-    img = Image(source='mmm.png')
-    Logger.info('sss002')
-    return img
+    #self.psdParser.merged_image.save('mmm.png', 'PNG')
+    #Logger.info('sss001')
+    #img = Image(source='mmm.png')
+    #Logger.info('sss002')
+    #return img
     
   def prepare(self):
     self.message='xxxxxxx'
