@@ -13,7 +13,8 @@ from kivy.logger import Logger
 import os
 from psdparser import PSDParser
 from kivy.uix.image import Image
-    
+from viewport import Viewport
+
 class MyLabel(Label):
   def on_touch_down(self, touch, after=False):
     if after:
