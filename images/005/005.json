@@ -1,0 +1,12 @@
+{
+  "opacity": 255, 
+  "visible": true, 
+  "layer_id": 320, 
+  "bbox": {
+    "top": 432, 
+    "right": 721, 
+    "bottom": 507, 
+    "left": 28
+  }, 
+  "blend_mode": "normal"
+}
