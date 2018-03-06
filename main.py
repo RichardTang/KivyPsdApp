@@ -14,6 +14,7 @@ import os
 from psdparser import PSDParser
 from kivy.uix.image import Image
 from viewport import Viewport
+from kivy.lang import Builder
 
 class MyLabel(Label):
   def on_touch_down(self, touch, after=False):
@@ -41,6 +42,7 @@ class MyApp(App):
     #img = Image(source='mmm.png')
     #Logger.info('sss002')
     #return img
+    return Builder.load_file("page_005.kv")
     
   def prepare(self):
     self.message='xxxxxxx'
