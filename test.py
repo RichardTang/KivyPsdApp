@@ -8,6 +8,9 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+def mkdir_if(inDirName):
+  if (os.path.isdir(inDirName) == False):
+    os.mkdir(inDirName)
 
 def searchJsonFileAndCreateImgInDir(exportDirPath):
   fullPngFile = exportDirPath + ".png"
@@ -100,18 +103,13 @@ def exportPsdLayers(layers, destDir):
     os.rmdir(destDir)
 
 
-
-
-    psd = PSDImage.load('../../%s'%context.psdFilePath)
-    #psd.print_tree()
-    #merged_image = psd.as_PIL()
-    #merged_image.save('my_image.png')
-    #https://github.com/kyamagu/psd-tools2
-    #pip install git+https://github.com/ojii/pymaging#egg=pymaging
-    #pip install git+https://github.com/ojii/pymaging-bmp.git#egg=pymaging-bmp
-    #pip install git+https://github.com/ojii/pymaging-jpg.git#egg=pymaging-jpg
-    #pip install git+https://github.com/ojii/pymaging-png.git#egg=pymaging-png
+def test_001():
+    psd = PSDImage.load('../psd/006.psd')
     merged_image = psd.as_pymaging()
-    merged_image.save_to_path('images/001.png')
-    exportPsdLayers(psd.layers, "images/001")
-    searchJsonFileAndCreateImgInDir("images/001")  
+    merged_image.save_to_path('images/006.png')
+    exportPsdLayers(psd.layers, "images/006")
+    searchJsonFileAndCreateImgInDir("images/006")  
+if __name__ == "__main__":
+  print("hello")
+  test_001()
+
