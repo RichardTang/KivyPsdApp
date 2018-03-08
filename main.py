@@ -16,6 +16,8 @@ from kivy.uix.image import Image
 from viewport import Viewport
 from kivy.lang import Builder
 
+from my_image_button import MyImageButton
+
 class MyLabel(Label):
   def on_touch_down(self, touch, after=False):
     if after:
