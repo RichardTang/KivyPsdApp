@@ -15,6 +15,7 @@ from psdparser import PSDParser
 from kivy.uix.image import Image
 from viewport import Viewport
 from kivy.lang import Builder
+from kivy.graphics import BorderImage
 
 from my_image_button import MyImageButton
 
