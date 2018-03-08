@@ -2,11 +2,13 @@
 # encoding=utf8
 from behave import *
 import os
-import rtutils
 import pprint
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
+
+from psd_tools import PSDImage
+from PIL import Image
 
 def mkdir_if(inDirName):
   if (os.path.isdir(inDirName) == False):
@@ -102,8 +104,8 @@ def exportPsdLayers(layers, destDir):
   if len(os.listdir(destDir)) == 0:
     os.rmdir(destDir)
 
-
 def test_001():
+    mkdir_if("images")
     psd = PSDImage.load('../psd/006.psd')
     merged_image = psd.as_pymaging()
     merged_image.save_to_path('images/006.png')
