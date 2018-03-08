@@ -4,6 +4,7 @@ from behave import *
 import os
 import pprint
 import sys
+import json
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
@@ -32,6 +33,22 @@ def getLayerData(l):
   if hasattr(l, 'layer_id'):
     layerData['layer_id'] = l.layer_id
   return layerData
+
+def searchJsonFileInDir(exportDirPath):
+  jsonFiles = []
+  for singleFile in os.listdir(exportDirPath):
+    singleFilePath = os.path.join(exportDirPath, singleFile)
+    if(os.path.isfile(singleFilePath)):
+      if(singleFilePath.find(".json")>0):
+        if(singleFilePath.find("_text.json")>0):
+          #ignore the same file
+          pass
+        else:
+          jsonFiles.append(singleFilePath)
+    else:
+      for subFile in searchJsonFileInDir(singleFilePath):
+        jsonFiles.append(subFile)
+  return jsonFiles
 
 def searchJsonFileAndCreateImgInDir(exportDirPath):
   fullPngFile = exportDirPath + ".png"
