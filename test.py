@@ -14,6 +14,25 @@ def mkdir_if(inDirName):
   if (os.path.isdir(inDirName) == False):
     os.mkdir(inDirName)
 
+def getLayerData(l):
+  layerData = {}
+  if hasattr(l, 'visible'):
+    layerData['visible'] = l.visible
+  layerData['bbox'] = {}
+  layerData['bbox']['left'] = l.bbox.x1
+  layerData['bbox']['top'] = l.bbox.y1
+  layerData['bbox']['right'] = l.bbox.x2
+  layerData['bbox']['bottom'] = l.bbox.y2
+  if hasattr(l, 'text'):
+    layerData['text'] = l.text
+  if hasattr(l, 'opacity'):
+    layerData['opacity'] = l.opacity
+  if hasattr(l, 'blend_mode'):
+    layerData['blend_mode'] = l.blend_mode
+  if hasattr(l, 'layer_id'):
+    layerData['layer_id'] = l.layer_id
+  return layerData
+
 def searchJsonFileAndCreateImgInDir(exportDirPath):
   fullPngFile = exportDirPath + ".png"
   im = Image.open(fullPngFile)
