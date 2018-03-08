@@ -5,12 +5,12 @@ from kivy.uix.behaviors import ToggleButtonBehavior
 
 class MyImageButton(ToggleButtonBehavior, Image):
   def __init__(self, **kwargs):
-    supper(MyImageButton, self).__init__(**kwargs)
+    super(MyImageButton, self).__init__(**kwargs)
     self.source = 'atlas://data/images/defaulttheme/checkbox_off'
 
   def on_state(self, widget, value):
     if value == 'down':
       self.source = 'atlas://data/images/defaulttheme/checkbox_on'
     else:
-      slef.source = 'atlas://data/images/defaulttheme/checkbox_off'
+      self.source = 'atlas://data/images/defaulttheme/checkbox_off'
 
